@@ -1,0 +1,8 @@
+streamlit>=1.32.0
+python-dotenv>=1.0.0
+numpy>=1.26.0
+openvino>=2024.0.0
+# Optional / unused by default — reserved for future prose polish
+# openai>=1.40.0
+# Optional Speechmatics SDK when wiring live STT (stub works without it)
+# speechmatics-python>=1.0.0

@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+ENV/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Secrets / env
+.env
+.env.*
+!.env.example
+*.pem
+credentials.json
+
+# Runtime / OpenVINO cache
+*.log
+models/*.bin
+models/*.xml
+!models/.gitkeep
+.openvino_cache/
+.tmp/
+
+# Streamlit
+.streamlit/secrets.toml
