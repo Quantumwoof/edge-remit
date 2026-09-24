@@ -1,4 +1,6 @@
-# EdgeRemit — slide outline (export to PDF later)
+# EdgeRemit — slide outline
+
+PDF deck: [EdgeRemit-slides.pdf](EdgeRemit-slides.pdf).
 
 **Event:** AI Infra Summit Hackathon · lablab.ai · **Intel Online** track  
 **Team:** Joshua Jubelo / Quantumwoof · Nigeria  

@@ -28,6 +28,8 @@ cd edge-remit
 python3 -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
+# optional editable install so `import edge_remit` works without PYTHONPATH:
+# pip install -e .
 
 # Smoke test (exits 0, no keys)
 DEMO_MODE=1 python main.py --demo-once
@@ -51,7 +53,7 @@ LIVE_OPENVINO=1 DEMO_MODE=0 streamlit run app.py
 4. **CLI proof (30s)** — `DEMO_MODE=1 python main.py --demo-once`. Narrate the `[router] DEMO OpenVINO path` log lines.
 5. **Close (20s)** — “Confirm the live rate in-app. EdgeRemit decides; it does not send. Optional Speechmatics STT is a bonus stub and never blocks the demo.”
 
-Sample session: [docs/demo-transcript.md](docs/demo-transcript.md) · Slides outline: [docs/slides.md](docs/slides.md).
+Sample session: [docs/demo-transcript.md](docs/demo-transcript.md) · Slides outline: [docs/slides.md](docs/slides.md) · PDF deck: [docs/EdgeRemit-slides.pdf](docs/EdgeRemit-slides.pdf).
 
 ## Architecture
 
@@ -81,7 +83,7 @@ flowchart LR
 
 ### Intel OpenVINO integration
 
-- Package: `openvino` (pinned loosely as `>=2024` in `requirements.txt`; verified on **2026.3.x**).
+- Package: `openvino` (pinned loosely as `>=2024` in `requirements.txt`; verified on **2026.4.x**).
 - LIVE path builds an `ov.Model` with opset MatMul + Add + SoftMax, `core.compile_model(..., "CPU")`, then runs BoW features.
 - DEMO path is intentional for offline judging and logs **`DEMO OpenVINO path`** so the edge story is visible even without stressing the Runtime.
 - If LIVE is requested but OpenVINO fails to import/compile, the agent **falls back to DEMO** and records the error in `router_status()`.
@@ -117,6 +119,7 @@ edge-remit/
   docs/
     demo-transcript.md
     slides.md
+    EdgeRemit-slides.pdf
   src/edge_remit/
     openvino_router.py        # DEMO + LIVE OpenVINO intent router
     tools.py                  # rate / fees / timing / checklist
@@ -129,10 +132,12 @@ edge-remit/
 
 ## Smoke test
 
+`main.py` / `app.py` add `src/` to `sys.path`. For one-liners, set `PYTHONPATH=src`.
+
 ```bash
 DEMO_MODE=1 python main.py --demo-once
 # or
-DEMO_MODE=1 python -c "from edge_remit.agent import EdgeRemitAgent; a=EdgeRemitAgent(); print(a.turn('USD to naira rate?')); assert a.last_route is not None"
+PYTHONPATH=src DEMO_MODE=1 python -c "from edge_remit.agent import EdgeRemitAgent; a=EdgeRemitAgent(); print(a.turn('USD to naira rate?')); assert a.last_route is not None"
 ```
 
 Both exit **0** with no API keys.
